@@ -4,7 +4,7 @@ import http from '../core/http';
 let _routes = [];
 let _routesPromise = null;
 
-async function fetchBusRoutes() {
+async function fetchBusRoutesAsync() {
   if(_routesPromise) return;
 
   _routesPromise = http.get('http://microapi.theride.org/RouteNames');
@@ -14,7 +14,7 @@ async function fetchBusRoutes() {
 
 class BusRouteStore extends EventEmitter {
   getAll() {
-    fetchBusRoutes();
+    fetchBusRoutesAsync();
     return _routes;
   }
 }
