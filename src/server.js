@@ -7,6 +7,7 @@ import path from 'path';
 import express from 'express';
 import ReactDOM from 'react-dom/server';
 import router from './router';
+import proxy from 'express-http-proxy';
 
 const server = global.server = express();
 
@@ -18,6 +19,16 @@ server.use(express.static(path.join(__dirname, 'public')));
 // -----------------------------------------------------------------------------
 server.use('/api/content', require('./api/content'));
 
+server.use('/proxy', proxy(
+    'microapi.theride.org',
+    {
+      forwardPath: function (req, res) {
+        console.log(require('url').parse(req.url).path);
+        return require('url').parse(req.url).path;
+      }
+    }
+  )
+);
 //
 // Register server-side rendering middleware
 // -----------------------------------------------------------------------------

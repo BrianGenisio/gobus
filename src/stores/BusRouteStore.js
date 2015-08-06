@@ -8,14 +8,14 @@ let _stops = new Map();
 async function fetchBusRoutesAsync() {
   if(_routes) return;
 
-  _routes = await http.get('http://microapi.theride.org/RouteNames');
+  _routes = await http.get('/proxy/RouteNames');
   store.emit("change");
 }
 
 async function fetchRouteStopsAsync(routeId) {
   if(_stops.has(routeId)) return;
 
-  _stops.set(routeId, await http.get(`http://microapi.theride.org/StopsOnRoute/${routeId}`));
+  _stops.set(routeId, await http.get(`/proxy/StopsOnRoute/${routeId}`));
   store.emit("change");
 }
 
