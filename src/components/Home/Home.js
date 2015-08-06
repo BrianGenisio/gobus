@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import styles from './Home.css';
 import withStyles from '../../decorators/withStyles';
+import RouteList from '../RouteList';
 
 @withStyles(styles)
 class Home {
@@ -18,7 +19,9 @@ class Home {
       <div className="HomePage">
         <div className="HomePage-container">
           <h1>Welcome {title}</h1>
-          <p>...</p>
+
+          <RouteList />
+
         </div>
       </div>
     );
