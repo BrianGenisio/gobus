@@ -47,11 +47,7 @@ class RouteDetails extends React.Component {
 
     return (
       <div className="RouteMap">
-        <h2>Route Map</h2>
-
         <div className="map" ref="mapcanvas"></div>
-
-
       </div>
     );
   }

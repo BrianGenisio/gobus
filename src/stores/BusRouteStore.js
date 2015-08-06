@@ -27,7 +27,7 @@ class BusRouteStore extends EventEmitter {
   }
 
   getRoute(routeId) {
-    return _.findLast(this.getRoutes(), r => r.routeOffsetID === parseInt(routeId));
+    return _.findLast(this.getRoutes(), r => r.routeAbbr === routeId);
   }
 
   getStops(routeId) {

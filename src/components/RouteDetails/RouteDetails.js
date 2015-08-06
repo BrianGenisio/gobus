@@ -39,12 +39,20 @@ class RouteDetails extends React.Component {
     let stops = this.state.stops.map(s => <div key={s.sequence}>{s.name}</div>);
 
     return (
-      <div className="RouteDetails">
-        <h2>Route Details</h2>
-        Name: {this.state.busRoute.name}
-        Stops: {stops}
+      <div className="RouteDetails container-fluid">
+        <div className="row">
+          <div className="col-md-3">
+            <h2>{this.state.busRoute.name}</h2>
+            {stops}
+          </div>
+          <div className="col-md-9">
+            <RouteMap stops={this.state.stops} />
+          </div>
+        </div>
 
-        <RouteMap stops={this.state.stops} />
+
+
+
       </div>
     );
   }
