@@ -9,10 +9,21 @@ class RouteList extends React.Component {
   constructor() {
     super();
     this.state = { busRoutes: [] };
+
+    this._onStoreChange = () => this.getBusRoutes();
   }
 
-  async componentDidMount() {
-    let busRoutes = await BusRouteStore.getAll();
+  componentDidMount() {
+    BusRouteStore.addListener('change', this._onStoreChange);
+    this.getBusRoutes();
+  }
+
+  componentWillUnmount() {
+    BusRouteStore.removeListener('change', this._onStoreChange);
+  }
+
+  getBusRoutes() {
+    let busRoutes = BusRouteStore.getAll();
     this.setState({busRoutes});
   }
 
