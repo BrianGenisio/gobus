@@ -11,24 +11,39 @@ const getBaseUrl = (() => {
       `http://127.0.0.1:${global.server.get('port')}`);
 })();
 
+let _cache = new Map();
+
 const http = {
 
-  get: path => new Promise((resolve, reject) => {
-    request
-      .get(getBaseUrl() + path)
-      .accept('application/json')
-      .end((err, res) => {
-        if (err) {
-          if (err.status === 404) {
-            resolve(null);
+  get: function(path) {
+
+    if(_cache.has(path)) return _cache.get(path);
+
+    let result = new Promise((resolve, reject) => {
+      request
+        .get(getBaseUrl() + path)
+        .accept('application/json')
+        .end((err, res) => {
+          _cache.delete(path);
+
+          if (err) {
+            if (err.status === 404) {
+              resolve(null);
+            } else {
+              reject(err);
+            }
           } else {
-            reject(err);
+            resolve(res.body);
           }
-        } else {
-          resolve(res.body);
-        }
-      });
-  })
+        });
+    });
+
+    _cache.set(path, result);
+
+    return result;
+  }
+
+
 
 };
 

@@ -25,7 +25,7 @@ class RouteList extends React.Component {
   }
 
   getBusRoutes() {
-    let busRoutes = BusRouteStore.getAll();
+    let busRoutes = BusRouteStore.getRoutes();
     this.setState({busRoutes});
   }
 
