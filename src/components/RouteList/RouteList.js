@@ -8,16 +8,16 @@ class RouteList extends React.Component {
 
   constructor() {
     super();
-
-    this.state = { routes: [] };
+    this.state = { busRoutes: [] };
   }
 
-  componentDidMount() {
-    BusRouteStore.getAll().then(routes => this.setState({routes}));
+  async componentDidMount() {
+    let busRoutes = await BusRouteStore.getAll();
+    this.setState({busRoutes});
   }
 
   render() {
-    let routes = (this.state.routes || []).map(r => <div key={r.routeOffsetID}>{r.name}</div>);
+    let routes = this.state.busRoutes.map(r => <div key={r.routeOffsetID}>{r.name}</div>);
 
     return (
       <div className="RouteList">
