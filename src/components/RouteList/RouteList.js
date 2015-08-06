@@ -1,7 +1,9 @@
 import React, { PropTypes } from 'react';
+import _ from 'lodash';
 import styles from './RouteList.css';
 import withStyles from '../../decorators/withStyles';
 import BusRouteStore from '../../stores/BusRouteStore';
+import RouteListItem from './RouteListItem';
 
 @withStyles(styles)
 class RouteList extends React.Component {
@@ -28,7 +30,8 @@ class RouteList extends React.Component {
   }
 
   render() {
-    let routes = this.state.busRoutes.map(r => <div key={r.routeOffsetID}>{r.name}</div>);
+    let routes = _.sortBy(this.state.busRoutes, r => parseInt(r.routeAbbr))
+      .map(r => <RouteListItem key={r.routeOffsetID} busRoute={r} />);
 
     return (
       <div className="RouteList">
