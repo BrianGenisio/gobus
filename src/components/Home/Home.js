@@ -1,29 +1,28 @@
-/*! React Starter Kit | MIT License | http://www.reactstarterkit.com/ */
-
 import React, { PropTypes } from 'react';
-import styles from './LoginPage.css';
+import styles from './Home.css';
 import withStyles from '../../decorators/withStyles';
 
 @withStyles(styles)
-class LoginPage {
-
+class Home {
   static contextTypes = {
     onSetTitle: PropTypes.func.isRequired
   };
 
   render() {
-    let title = 'Log In';
+    let title = 'Home';
     this.context.onSetTitle(title);
+
+    console.log(this.context);
+
     return (
-      <div className="LoginPage">
-        <div className="LoginPage-container">
-          <h1>{title}</h1>
+      <div className="HomePage">
+        <div className="HomePage-container">
+          <h1>Welcome {title}</h1>
           <p>...</p>
         </div>
       </div>
     );
   }
-
 }
 
-export default LoginPage;
+export default Home;
