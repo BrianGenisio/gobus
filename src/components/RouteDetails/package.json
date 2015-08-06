@@ -1,0 +1,6 @@
+{
+  "name": "RouteDetails",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./RouteDetails.js"
+}

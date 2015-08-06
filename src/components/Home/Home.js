@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import styles from './Home.css';
 import withStyles from '../../decorators/withStyles';
 import RouteList from '../RouteList';
+import Link from '../../utils/Link';
 
 @withStyles(styles)
 class Home {
@@ -10,7 +11,7 @@ class Home {
   };
 
   render() {
-    let title = 'Home';
+    let title = 'GoBus';
     this.context.onSetTitle(title);
 
     console.log(this.context);
@@ -18,9 +19,9 @@ class Home {
     return (
       <div className="HomePage">
         <div className="HomePage-container">
-          <h1>Welcome {title}</h1>
+          <h1>Welcome to {title}</h1>
 
-          <RouteList />
+          <a href="/routes" onClick={Link.handleClick}>See the routes!</a>
 
         </div>
       </div>

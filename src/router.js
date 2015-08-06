@@ -5,6 +5,8 @@ import Router from 'react-routing/src/Router';
 import http from './core/http';
 import App from './components/App';
 import HomePage from './components/Home';
+import RouteList from './components/RouteList';
+import RouteDetails from './components/RouteDetails';
 import ContentPage from './components/ContentPage';
 import ContactPage from './components/ContactPage';
 import NotFoundPage from './components/NotFoundPage';
@@ -18,6 +20,8 @@ const router = new Router(on => {
   });
 
   on('/', async () => <HomePage />);
+  on('/routes', async () => <RouteList />);
+  on('/routes/:id', async (state) => <RouteDetails id={state.params.id} />);
   on('/contact', async () => <ContactPage />);
 
   on('*', async (state) => {

@@ -35,7 +35,7 @@ class RouteList extends React.Component {
 
     return (
       <div className="RouteList">
-        RouteList
+        <h2>RouteList</h2>
         {routes}
       </div>
     );
