@@ -74,7 +74,7 @@ class RouteDetails extends React.Component {
   setCenter() {
     if(!this.map) return;
     if(!this.props.stops.length) return;
-    
+
     this.map.setCenter(this.getCenter());
   }
 

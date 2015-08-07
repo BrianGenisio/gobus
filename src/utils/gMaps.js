@@ -10,18 +10,18 @@ class GMaps {
   createBusStop(lat, lng, title) {
     return new window.google.maps.Marker({
       position: { lat, lng },
-      title
+      title,
+      icon: {
+        path: window.google.maps.SymbolPath.CIRCLE,
+        scale: 3
+      }
     });
   }
 
   createBus(lat, lng, title) {
     return new window.google.maps.Marker({
       position: { lat, lng },
-      title,
-      icon: {
-        path: window.google.maps.SymbolPath.CIRCLE,
-        scale: 10
-      }
+      title
     });
   }
 }
