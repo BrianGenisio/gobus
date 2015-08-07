@@ -44,10 +44,10 @@ class RouteDetails extends React.Component {
   render() {
     if(!this.state.busRoute) return null;
 
-    let stops = this.state.stops.map(s => <div key={s.sequence}>{s.name}</div>);
-
+    let key = s => `${s.stopID}.${s.sequence}.${s.directionID}`;
+    let stops = this.state.stops.map(s => <div key={key(s)}>{s.name}</div>);
     let time = this.state.locations.length > 0 ? this.state.locations[0].crossingTime : 'unknown';
-    console.log(this.state.locations);
+
     return (
       <div className="RouteDetails container-fluid">
         <div className="row">
