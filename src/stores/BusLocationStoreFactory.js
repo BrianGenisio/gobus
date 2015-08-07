@@ -46,7 +46,7 @@ class BusLocationStore extends EventEmitter {
 
 class BusLocationStoreFactory {
   create(routeId, timeoutSeconds=10) {
-    return new BusLocationStore(routeId, timeoutSeconds);
+    return new BusLocationStore(parseInt(routeId), timeoutSeconds);
   }
 }
 
