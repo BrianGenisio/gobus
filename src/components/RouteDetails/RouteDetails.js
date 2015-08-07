@@ -42,9 +42,10 @@ class RouteDetails extends React.Component {
   }
 
   renderStop(stop) {
+    let atStop = this.busIsAtStop(stop);
     let key = `${stop.stopID}.${stop.sequence}.${stop.directionID}`;
-    let className = `RouteLabel ${stop.isTimePoint ? 'TimePoint' : ''}`;
-    let busIndicator = this.busIsAtStop(stop) ? '*' : '';
+    let className = `RouteLabel ${stop.isTimePoint ? 'TimePoint' : ''} ${atStop ? 'AtStop': ''}`;
+    let busIndicator = atStop ? <i className="fa fa-bus"></i> : '';
     return <div key={key} className={className}>{stop.name} {busIndicator}</div>;
   }
 

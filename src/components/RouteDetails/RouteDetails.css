@@ -7,3 +7,7 @@
 .RouteLabel.TimePoint {
   font-weight: bold;
 }
+
+.RouteLabel.TimePoint.AtStop {
+  color: forestgreen;
+}
