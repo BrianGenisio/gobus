@@ -3,3 +3,7 @@
 .RouteDetails h2 {
   display: inline;
 }
+
+.RouteLabel.TimePoint {
+  font-weight: bold;
+}

@@ -41,11 +41,23 @@ class RouteDetails extends React.Component {
     this.setState({busRoute, stops, locations});
   }
 
+  renderStop(stop) {
+    let key = `${stop.stopID}.${stop.sequence}.${stop.directionID}`;
+    let className = `RouteLabel ${stop.isTimePoint ? 'TimePoint' : ''}`;
+    let busIndicator = this.busIsAtStop(stop) ? '*' : '';
+    return <div key={key} className={className}>{stop.name} {busIndicator}</div>;
+  }
+
+  busIsAtStop(stop) {
+    if(!this.state.locations.length) return;
+    let stopIds = _.pluck(this.state.locations, "timePointStopID");
+    return stopIds.indexOf(stop.stopID) >= 0;
+  }
+
   render() {
     if(!this.state.busRoute) return null;
 
-    let key = s => `${s.stopID}.${s.sequence}.${s.directionID}`;
-    let stops = this.state.stops.map(s => <div key={key(s)}>{s.name}</div>);
+    let stops = this.state.stops.map(s => this.renderStop(s));
     let time = this.state.locations.length > 0 ? this.state.locations[0].crossingTime : 'unknown';
 
     return (
