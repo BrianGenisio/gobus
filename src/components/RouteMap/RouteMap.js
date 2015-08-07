@@ -26,7 +26,8 @@ function busStopMarker(stop) {
   return gMaps.createBusStop(
     stop.lattitude / BUS_STOP_MAGNITUDE,
     stop.longitude / BUS_STOP_MAGNITUDE,
-    stop.name);
+    stop.name,
+    stop.isTimePoint);
 }
 
 function busMarker(location) {

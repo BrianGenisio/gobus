@@ -7,13 +7,17 @@ class GMaps {
     });
   }
 
-  createBusStop(lat, lng, title) {
+  createBusStop(lat, lng, title, isTimeStop) {
+    let color = isTimeStop ? 'green' : 'black';
     return new window.google.maps.Marker({
       position: { lat, lng },
       title,
       icon: {
         path: window.google.maps.SymbolPath.CIRCLE,
-        scale: 3
+        scale: 3,
+        fillColor: color,
+        fillOpacity: 1,
+        strokeColor: color
       }
     });
   }
