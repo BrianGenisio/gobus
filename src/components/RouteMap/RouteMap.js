@@ -6,6 +6,10 @@ import gMaps from '../../utils/gMaps';
 
 const BUS_STOP_MAGNITUDE = 1000000;
 const BUS_MAGNITUDE      = 10000000;
+const ANN_ARBOR = {
+  lat: 42.2733204,
+  lng: -83.7376894
+}
 
 function getMidpoint(items, propName) {
   let values =  _.chain(items)
@@ -40,7 +44,7 @@ class RouteDetails extends React.Component {
   }
 
   drawMap() {
-    this.map = gMaps.createMap(42.2733204, -83.7376894, 13, ReactDOM.findDOMNode(this.refs.mapcanvas));
+    this.map = gMaps.createMap(ANN_ARBOR.lat, ANN_ARBOR.lng, 13, ReactDOM.findDOMNode(this.refs.mapcanvas));
   }
 
   getMarkers() {
@@ -69,6 +73,8 @@ class RouteDetails extends React.Component {
 
   setCenter() {
     if(!this.map) return;
+    if(!this.props.stops.length) return;
+    
     this.map.setCenter(this.getCenter());
   }
 
