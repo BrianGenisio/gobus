@@ -2,8 +2,35 @@ import React, { PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import styles from './RouteMap.css';
 import withStyles from '../../decorators/withStyles';
+import gMaps from '../../utils/gMaps';
 
-const LOCATION_MAGNITUDE = 1000000;
+const BUS_STOP_MAGNITUDE = 1000000;
+const BUS_MAGNITUDE      = 10000000;
+
+function getMidpoint(items, propName) {
+  let values =  _.chain(items)
+    .pluck(propName)
+    .map(x => parseInt(x));
+
+  let min = values.min().value();
+  let max = values.max().value();
+
+  return min + (max - min) / 2
+}
+
+function busStopMarker(stop) {
+  return gMaps.createBusStop(
+    stop.lattitude / BUS_STOP_MAGNITUDE,
+    stop.longitude / BUS_STOP_MAGNITUDE,
+    stop.name);
+}
+
+function busMarker(location) {
+  return gMaps.createBus(
+    location.lat / BUS_MAGNITUDE,
+    location.longitude / BUS_MAGNITUDE,
+    `Bus #${location.routeAbbr} ${location.routeDirection}`)
+}
 
 @withStyles(styles)
 class RouteDetails extends React.Component {
@@ -13,14 +40,14 @@ class RouteDetails extends React.Component {
   }
 
   drawMap() {
-    var mapOptions = {
-      center: { lat: 42.2733204, lng: -83.7376894},
-      zoom: 13
-    };
+    this.map = gMaps.createMap(42.2733204, -83.7376894, 13, ReactDOM.findDOMNode(this.refs.mapcanvas));
+  }
 
-    let element = ReactDOM.findDOMNode(this.refs.mapcanvas);
-    this.map = new window.google.maps.Map(element, mapOptions);
+  getMarkers() {
+    let busStopMarkers = this.props.stops.map(busStopMarker);
+    let busMarkers = this.props.locations.map(busMarker);
 
+    return busStopMarkers.concat(busMarkers);
   }
 
   drawMarkers() {
@@ -28,33 +55,15 @@ class RouteDetails extends React.Component {
       this.markers.forEach(m => m.setMap(null));
     }
 
-    this.markers = this.props.stops.map(s => new window.google.maps.Marker({
-      position: {
-        lat: s.lattitude / LOCATION_MAGNITUDE,
-        lng: s.longitude / LOCATION_MAGNITUDE
-      },
-      title: s.name
-    }));
+    this.markers = this.getMarkers();
 
     this.markers.forEach(m => m.setMap(this.map));
   }
 
-  center(max, min) {
-    return min + (max - min) / 2;
-  }
-
   getCenter() {
-    let latitudes = _.chain(this.props.stops)
-      .pluck("lattitude")
-      .map(x => parseInt(x));
-
-    let longitudes = _.chain(this.props.stops)
-      .pluck("longitude")
-      .map(x => parseInt(x));
-
     return {
-      lat: this.center(latitudes.max().value(), latitudes.min().value()) / LOCATION_MAGNITUDE,
-      lng: this.center(longitudes.max().value(), longitudes.min().value()) / LOCATION_MAGNITUDE
+      lat: getMidpoint(this.props.stops, "lattitude") / BUS_STOP_MAGNITUDE,
+      lng: getMidpoint(this.props.stops, "longitude") / BUS_STOP_MAGNITUDE
     };
   }
 
@@ -68,7 +77,6 @@ class RouteDetails extends React.Component {
   }
 
   render() {
-
     this.drawMarkers();
     this.setCenter();
 

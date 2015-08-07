@@ -1,2 +1,5 @@
 @import '../variables.css';
 
+.RouteDetails h2 {
+  display: inline;
+}
