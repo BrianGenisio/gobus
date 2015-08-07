@@ -4,6 +4,7 @@ import withStyles from '../../decorators/withStyles';
 import BusRouteStore from '../../stores/BusRouteStore';
 import BusLocationStoreFactory from '../../stores/BusLocationStoreFactory';
 import RouteMap from '../RouteMap';
+import SystemActions from '../../actions/SystemActionCreators';
 
 @withStyles(styles)
 class RouteDetails extends React.Component {
@@ -46,7 +47,11 @@ class RouteDetails extends React.Component {
     let key = `${stop.stopID}.${stop.sequence}.${stop.directionID}`;
     let className = `RouteLabel ${stop.isTimePoint ? 'TimePoint' : ''} ${atStop ? 'AtStop': ''}`;
     let busIndicator = atStop ? <i className="fa fa-bus"></i> : '';
-    return <div key={key} className={className}>{stop.name} {busIndicator}</div>;
+    return <div key={key} className={className} onClick={this.handleClick.bind(null, stop.stopID)}>{stop.name} {busIndicator}</div>;
+  }
+
+  handleClick(stopId) {
+    SystemActions.indicateBusStop(stopId);
   }
 
   busIsAtStop(stop) {

@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import styles from './RouteMap.css';
 import withStyles from '../../decorators/withStyles';
 import gMaps from '../../utils/gMaps';
+import AppStateStore from '../../stores/AppStateStore';
+import _ from 'lodash';
 
 const BUS_STOP_MAGNITUDE = 1000000;
 const BUS_MAGNITUDE      = 10000000;
@@ -27,7 +29,9 @@ function busStopMarker(stop) {
     stop.lattitude / BUS_STOP_MAGNITUDE,
     stop.longitude / BUS_STOP_MAGNITUDE,
     stop.name,
-    stop.isTimePoint);
+    stop.isTimePoint,
+    stop.stopID
+  );
 }
 
 function busMarker(location) {
@@ -42,6 +46,12 @@ class RouteDetails extends React.Component {
 
   constructor() {
     super();
+
+    this.state = {
+      stopIndicators: []
+    };
+
+    this._onChange = () => this.updateState();
   }
 
   drawMap() {
@@ -65,6 +75,18 @@ class RouteDetails extends React.Component {
     this.markers.forEach(m => m.setMap(this.map));
   }
 
+  animateStops(stopIndicators) {
+    this.markers.forEach(m => m.setAnimation(null));
+
+    stopIndicators.forEach(stopId => {
+      if(!this.markers.length) return;
+
+      let found = _.findLast(this.markers, m => m.stopId == stopId);
+
+      if(found) found.setAnimation(google.maps.Animation.BOUNCE);
+    });
+  }
+
   getCenter() {
     return {
       lat: getMidpoint(this.props.stops, "lattitude") / BUS_STOP_MAGNITUDE,
@@ -81,6 +103,16 @@ class RouteDetails extends React.Component {
 
   componentDidMount() {
     this.drawMap()
+    AppStateStore.addListener("change", this._onChange);
+  }
+
+  componentWillUnmount() {
+    AppStateStore.removeListener("change", this._onChange);
+  }
+
+  updateState() {
+    let stopIndicators = AppStateStore.getIndicatedStops();
+    this.animateStops(stopIndicators);
   }
 
   render() {

@@ -7,9 +7,9 @@ class GMaps {
     });
   }
 
-  createBusStop(lat, lng, title, isTimeStop) {
+  createBusStop(lat, lng, title, isTimeStop, id) {
     let color = isTimeStop ? 'green' : 'black';
-    return new window.google.maps.Marker({
+    let marker = new window.google.maps.Marker({
       position: { lat, lng },
       title,
       icon: {
@@ -20,6 +20,8 @@ class GMaps {
         strokeColor: color
       }
     });
+    marker.stopId = id;
+    return marker;
   }
 
   createBus(lat, lng, title) {

@@ -4,6 +4,10 @@
   display: inline;
 }
 
+.RouteDetails .RouteLabel span {
+  cursor: pointer;
+}
+
 .RouteLabel.TimePoint {
   font-weight: bold;
 }
